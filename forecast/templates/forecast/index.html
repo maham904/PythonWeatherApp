@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <h1>Weather Dashboard</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="city" placeholder="Enter city name" value="{{ city }}" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if weather_data %}
+        {% if weather_data.error %}
+            <p>{{ weather_data.error }}</p>
+        {% else %}
+            <h2>Weather Information for {{ city }}:</h2>
+            <p>Temperature: {{ weather_data.temp }}°C</p>
+            <p>Feels Like: {{ weather_data.feels_like }}°C</p>
+            <p>Humidity: {{ weather_data.humidity }}%</p>
+            <p>Condition: {{ weather_data.description }}</p>
+
+            <h3>Weather Dashboard:</h3>
+            <img src="{% url 'weather_plot' %}" alt="Weather Dashboard" />
+        {% endif %}
+    {% endif %}
+</body>
+</html>
